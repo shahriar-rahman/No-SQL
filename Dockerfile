@@ -1,12 +1,17 @@
-# Dockerfile for Python
+# Use the Python 3.11 Alpine image as a base
 FROM python:3.11-alpine
 
+# Set the working directory
 WORKDIR /app
 
-COPY requirements.txt .
+# Copy the contents of the local "src" directory to the container
+COPY ./src /app
 
-RUN apk add --no-cache build-base libffi-dev libressl-dev && \
-    pip install --no-cache-dir -r requirements.txt && \
-    apk del build-base libffi-dev libressl-dev
+# Install Python dependencies from requirements.txt
+RUN pip install -r requirements.txt
 
-CMD ["python"]
+# Expose the port that your Python application will run on
+EXPOSE 5000
+
+# Command to run your Python script
+CMD ["python", "py_connection.py"]
